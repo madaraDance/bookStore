@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.bookstore.domain.BOOK;
 import com.example.bookstore.domain.BookRepository;
+import com.example.bookstore.domain.CategoryRepository;
 
 
 
@@ -18,6 +19,8 @@ import com.example.bookstore.domain.BookRepository;
 public class BookController {
     @Autowired
     private BookRepository repository;
+    @Autowired
+    private CategoryRepository cRepository;
 
     @RequestMapping("/index")
     public String bookList(Model model) {
@@ -26,8 +29,9 @@ public class BookController {
     }
 
     @RequestMapping(value = "/add")
-        public String addStudent(Model model){
+        public String addBook(Model model){
         model.addAttribute("book", new BOOK());
+        model.addAttribute("categories", cRepository.findAll());
         return "addBook";
     }
 
@@ -51,6 +55,7 @@ public class BookController {
         if (bookOptional.isPresent()) {
             // If the book exists, add it to the model
             model.addAttribute("book", bookOptional.get());
+            model.addAttribute("categories", cRepository.findAll());
             return "editBook";
         } else {
             // If the book doesn't exist, handle the error gracefully
