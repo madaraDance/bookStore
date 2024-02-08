@@ -15,6 +15,7 @@ public class BOOK {
     public String author, title, isbn;
     public Integer pubYear;
     public Integer price;
+
     @ManyToOne
     @JoinColumn(name = "categoryId")
     private Category category;
@@ -82,6 +83,14 @@ public class BOOK {
 
     public Category getCategory() {
         return this.category;
+    }
+
+    @Override
+    public String toString() {
+        if (this.category != null)
+            return "Book [id=" + id + ", Author=" + author + ", Title=" + title + ", Isbn=" + isbn + ",PubYear= " + pubYear + ", Price=" + price + " category =" + this.category.getName() + "]";
+        else
+            return "Book [id=" + id + ", Author=" + author + ", Title=" + title + ", Isbn=" + isbn + ",PubYear= " + pubYear + ", Price=" + price + "]";
     }
 
 }
