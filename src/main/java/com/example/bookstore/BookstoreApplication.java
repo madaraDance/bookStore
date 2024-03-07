@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.example.bookstore.domain.AppUser;
+import com.example.bookstore.domain.AppUserRepository;
 import com.example.bookstore.domain.BOOK;
 import com.example.bookstore.domain.BookRepository;
 import com.example.bookstore.domain.CategoryRepository;
@@ -18,7 +20,7 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(BookRepository repository, CategoryRepository cRepository) {return (args) -> {
+	public CommandLineRunner demo(BookRepository repository, CategoryRepository cRepository, AppUserRepository userRepository) {return (args) -> {
 
 		cRepository.save(new Category("Comedy"));
 		cRepository.save(new Category("Horror"));
@@ -36,6 +38,14 @@ public class BookstoreApplication {
 		repository.save(book2);
 		repository.save(book3);
 		repository.save(book4);
+
+		AppUser simpleUser = new AppUser("botUser", "$2a$10$66xTB/vFqIlrzD9w6m2jIeBys3kslEVxCwrOFjxRmiavGgExapOq6",//userpass
+			"USER", "emptyemail070320251558@gmail.com");
+		AppUser adminUser = new AppUser("admin", "$2a$10$H3VdlimXHqATZgEY7K2hj.6RR.UCppxeztnU0ECprdztpTHSGxS8i", //adminpass
+			"ADMIN", "adminemail070320241602@gmail.com");
+
+		userRepository.save(simpleUser);
+		userRepository.save(adminUser);
 	};
 }
 

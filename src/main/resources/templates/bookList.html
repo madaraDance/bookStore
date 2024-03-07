@@ -7,6 +7,9 @@
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
     </head>
     <body>
+        <div class="col-md-10">
+            Hello <span sec:authentication="name" style="font-size: large; font-style: italic; font-weight: bold;"></span>, glad to see you back!
+        </div>
         <table class="table table-striped">
             <tr>
                 <th>Author</th>
@@ -15,7 +18,7 @@
                 <th>Year</th>
                 <th>Price</th>
                 <th>Category</th>
-                <th colspan="2">Manage Book</th>
+                <th sec:authorize="hasAuthority('ADMIN')" colspan="2">Manage Book</th>
             </tr>
                 <tr th:each = "book : ${books}">
                 <td th:text="${book.author}"></td>
@@ -24,14 +27,19 @@
                 <td th:text="${book.pubYear}"></td>
                 <td th:text="${book.price} + '$'" ></td>
                 <td th:text="${book.category.name}"></td>
-                <th>  
+                <td sec:authorize="hasAuthority('ADMIN')">  
                     <span><a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Delete</a></span>
-                </th>
-                <th>
+                </td>
+                <td sec:authorize="hasAuthority('ADMIN')">
                     <span><a th:href="@{/edit/{id}(id=${book.id})}">Edit Book</a></span>
                 </th>
             </tr>
         </table>
         <a href="/add" class="btn btn-success">Add Book</a>
+        <div class="col-md-4" style="padding:20 px 0">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+            </form>
+        </div>
     </body>
 </html>
